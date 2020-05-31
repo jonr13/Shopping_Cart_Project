@@ -58,8 +58,8 @@ products = [
     # based on data from Instacart: https://www.instacart.com/datasets/grocery-shopping-2017
 
 
-#importing add_item function - designed to print the price & description of each item and add it to the receipt
-#importing usd function - designed to add a $ to the price of each item
+import datetime
+now = datetime.datetime.now()
 
 dict = [prod["id"] for prod in products]
 receipt = []
@@ -108,20 +108,27 @@ while identify_txt != "DONE" or identify_txt != "Done" or identify_txt != "done"
     except ValueError:
         print("Please enter a valid product identifier, or enter DONE to end.")
 
-tax = (round(subtotal*.0875), 2)
-total_amount = tax + subtotal
-
+tax = round(subtotal*.0875, 2)
+total_amount = round(tax + subtotal, 2)
+print("                            ")
 print("See Purchase Summary Below:")
 print("----------------------------")
 print("Murray Hill Food Market \nwww.MHFM.com")
+print("----------------------------")
+print("CHECKOUT AT: " + str(now.strftime("%m/%d/%Y, %I:%M %p")))
 print("----------------------------")
 print("SELECTED PRODUCTS: ")
 for item in receipt:
     print("..." + str(item["name"]) + " (" + str(to_usd(item["price"])) + ")")
 print("----------------------------")
-print("SUBTOTAL: " + str(to_usd(subtotal)) )
-print("TAX: " + str(tax))
-print("TOTAL: " + str(to_usd(total_amount))
+print("SUBTOTAL: " + str(to_usd(subtotal)))
+print("TAX: " + str(to_usd(tax)))
+print("TOTAL: " + str(to_usd(total_amount)))
 print("----------------------------")
 print("THANK YOU, SEE YOU AGAIN SOON!")
 print("----------------------------")
+
+
+
+
+
