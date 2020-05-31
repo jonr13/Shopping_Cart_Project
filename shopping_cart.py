@@ -1,3 +1,4 @@
+  
 
 #raise errors if needed using conditional statements
 #raise Mycustomerror("My custom message")
@@ -56,26 +57,71 @@ products = [
     {"id":20, "name": "Pomegranate Cranberry & Aloe Vera Enrich Drink", "department": "beverages", "aisle": "juice nectars", "price": 4.25}] 
     # based on data from Instacart: https://www.instacart.com/datasets/grocery-shopping-2017
 
-import modules
+
 #importing add_item function - designed to print the price & description of each item and add it to the receipt
 #importing usd function - designed to add a $ to the price of each item
 
 dict = [prod["id"] for prod in products]
 receipt = []
+subtotal = 0
+
+
+def add_item(prod_ident):
+    global subtotal
+    if prod_ident in dict: 
+        for prod in products:
+            if prod_ident == prod["id"]: 
+                var = print("Product: " + str(prod["name"]) + "        Price: " + str(to_usd(prod["price"])))
+                receipt.append(prod)
+                subtotal += prod["price"]
+    else:
+        var = "Hey, are you sure that product identifier is correct? Please try again!"
+    return var
+
+def to_usd(my_price):
+    """
+    Converts a numeric value to usd-formatted string, for printing and display purposes.
+
+    Param: my_price (int or float) like 4000.444444
+
+    Example: to_usd(4000.444444)
+
+    Returns: $4,000.44
+    """
+    return f"${my_price:,.2f}" #> $12,000.71
+
+
 
 prompt = "Please input product identifier, one product at a time: "
 print("If done adding items, please enter DONE.")
 identify_txt = ""
-while identify_txt == "DONE" or identify_txt == "Done" or identify_txt == "done":
+
+while identify_txt != "DONE" or identify_txt != "Done" or identify_txt != "done":
     identify_txt = input(prompt)
     try:
         if identify_txt == "DONE" or identify_txt == "Done" or identify_txt == "done":
             print("Done adding items, Thank you")
             break
-            identify_txt = ""
         else:
             identify_txt = int(identify_txt)
-            modules.add_item(identify_txt)
+            add_item(identify_txt)
     except ValueError:
         print("Please enter a valid product identifier, or enter DONE to end.")
 
+tax = (round(subtotal*.0875), 2)
+total_amount = tax + subtotal
+
+print("See Purchase Summary Below:")
+print("----------------------------")
+print("Murray Hill Food Market \nwww.MHFM.com")
+print("----------------------------")
+print("SELECTED PRODUCTS: ")
+for item in receipt:
+    print("..." + str(item["name"]) + " (" + str(to_usd(item["price"])) + ")")
+print("----------------------------")
+print("SUBTOTAL: " + str(to_usd(subtotal)) )
+print("TAX: " + str(tax))
+print("TOTAL: " + str(to_usd(total_amount))
+print("----------------------------")
+print("THANK YOU, SEE YOU AGAIN SOON!")
+print("----------------------------")
